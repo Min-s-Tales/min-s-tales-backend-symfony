@@ -27,7 +27,6 @@ class UserRepository extends AbstractRepository
 
     public function findOneBy(array $criteria, array $orderBy = null): ?User
     {
-        $criteria['deletedAt'] = null;
         /** @var User $user */
         $user = parent::findOneBy($criteria, $orderBy);
 
@@ -36,18 +35,8 @@ class UserRepository extends AbstractRepository
 
     public function count(array $criteria): int
     {
-        $criteria['deletedAt'] = null;
         return parent::count($criteria);
     }
-
-
-    public function findOneByUsername(string $username): ?User
-    {
-        return $this->findOneBy(['username' => $username]);
-    }
-
-
-
 
 }
 
