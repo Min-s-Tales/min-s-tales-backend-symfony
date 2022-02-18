@@ -14,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+//use Symfony\Component\Mailer\MailerInterface;
 
 
 class UsersController extends ApiBaseController
@@ -30,6 +31,7 @@ class UsersController extends ApiBaseController
      * @Route(path="/users/register", name="register_users", methods={"Post"})
      */
     public function register(
+        //MailerInterface $mailer,
         UsersService $usersService,
         UserPasswordHasherInterface $passwordHasher,
         SerializerInterface $serializer,
@@ -43,6 +45,10 @@ class UsersController extends ApiBaseController
         $hashedPassword = $passwordHasher->hashPassword($user ,$user->getPassword());
         $user->setPassword($hashedPassword);
         $result = $usersService->create($user);
+
+        //TO FINISH
+        //$mailSender = new EmailSend();
+        //$mailSender->sendMail($mailer, 'minstales@gmail.com', "1deux3quatre");
 
         return $this->json(
             [
