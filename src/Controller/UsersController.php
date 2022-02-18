@@ -45,33 +45,12 @@ class UsersController extends ApiBaseController
     }
 
     /**
-     * @Route(path="/users/login", name="login_users", methods={"Post"})
+     * @Route(path="/api/users/login", name="login_users", methods={"Post"})
      */
-    public function login(
-        AuthenticationUtils $authenticationUtils,
-        Request $request,
-        UserRepository $userRepository,
-        UserPasswordHasherInterface $passwordHasher
-    ): JsonResponse
+    public function login(): JsonResponse
     {
         $result = false;
-        $email = $request->request->get('email');
-        $password = $request->request->get('password');
-
-        $user = $userRepository->findOneBy(['email' => $email]);
-
-        dump($password);
-        dump($password);
-        $hashedPassword = $passwordHasher->hashPassword($user ,$password);
-
-        if($hashedPassword === $user->getPassword()){
-            dd('theo');
-        }
-
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-//        $result = $u->login($user);
+        $user = $this->getUser();
 
         return $this->json(
             [
@@ -81,7 +60,5 @@ class UsersController extends ApiBaseController
             $result ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST,
         );
     }
-
-
 
 }
