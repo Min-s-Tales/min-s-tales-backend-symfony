@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CreateUserTest extends WebTestCase
 {
-
     /**
      * @dataProvider userCreationSuccessfulProvider
      */
@@ -18,15 +17,9 @@ class CreateUserTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('Post', '/api/users/register', $data);
-
+        $response = $client->request('Post','/users/register', $data);
         $this->assertResponseIsSuccessful();
-//        $this->assertJson($response->getContent());
-
-//        $this->assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-
-//        $responseContent = json_decode($response->getContent(), true);
-//        $this->assertSame(true, $responseContent['result']);
+        $this->assertArrayHasKey('result', $response->getContent());
 
     }
 

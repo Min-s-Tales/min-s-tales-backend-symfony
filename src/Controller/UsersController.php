@@ -61,6 +61,4 @@ class UsersController extends ApiBaseController
         );
     }
 
-
-
 }
