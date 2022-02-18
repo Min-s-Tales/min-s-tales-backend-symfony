@@ -19,6 +19,14 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class UsersController extends ApiBaseController
 {
     /**
+     * @Route(path="/users", name="list_users", methods={"Get"})
+     */
+    public function test():JsonResponse{
+        return $this->json(['test'=>'test']);
+    }
+
+
+    /**
      * @Route(path="/users/register", name="register_users", methods={"Post"})
      */
     public function register(
