@@ -11,7 +11,7 @@ class EmailSend extends AbstractController
 {
     public function sendMail(MailerInterface $mailer, String $email, String $uuid)
     {
-        $link = "https://moncul.fr/verif?token=".$uuid."email=".$email;
+        $link = "https://test.fr/verif?token=".$uuid."email=".$email;
         $emailFrom = getenv('EMAIL');
 
         $mail = (new Email())

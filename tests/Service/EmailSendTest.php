@@ -30,7 +30,7 @@ class EmailSendTest extends WebTestCase
 
     public function sendMail(MailerInterface $mailer, string $email, string $uuid)
     {
-        $link = "https://moncul.fr/verif?token=" . $uuid . "email=" . $email;
+        $link = "https://test.fr/verif?token=" . $uuid . "email=" . $email;
         $emailFrom = getenv('EMAIL');
 
         $mail = (new Email())
