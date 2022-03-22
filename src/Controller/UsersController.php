@@ -39,6 +39,7 @@ class UsersController extends ApiBaseController
         return $this->json(
             [
                 'result' => $result,
+                'user' => $user,
             ],
             $result ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST,
         );

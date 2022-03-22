@@ -11,7 +11,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * method User|null findOneBy(array $criteria, array $orderBy = null)
+ * @method User|null findOneBy(array $criteria, array $orderBy = null)
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -23,14 +23,6 @@ class UserRepository extends AbstractRepository
         parent::__construct($registry, User::class);
 
         $this->em = $this->getEntityManager();
-    }
-
-    public function findOneBy(array $criteria, array $orderBy = null): ?User
-    {
-        /** @var User $user */
-        $user = parent::findOneBy($criteria, $orderBy);
-
-        return $user;
     }
 
     public function count(array $criteria): int
