@@ -103,6 +103,37 @@ class StoryController extends ApiBaseController
         );
     }
 
+
+
+    /**
+     * @Route(path="/api/story/{tag}", name="story_by_tag", methods={"GET"})
+     */
+    public function getStoryByTags(
+        StoryRepository $storyRepository,
+        SerializerInterface $serializer,
+        Request $request
+    ): JsonResponse
+    {
+        $tag = $request->query->get('tag', '');
+
+        $result = false;
+        $stories = $storyRepository->findBy(['tag' => $tag]);
+
+        if ($stories === null) {
+            $this->jsonNotFound();
+        }
+
+        $result = true;
+
+        return $this->json(
+            [
+                'story' => $stories,
+                'result' => $result,
+            ],
+            $result ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST,
+        );
+    }
+
     /**
      * @Route(path="/api/story/{guid}", name="story_update", methods={"PUT"})
      */
