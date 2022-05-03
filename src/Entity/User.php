@@ -11,9 +11,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
+     * @ORM\Column(name="user_id", type="bigint", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      */
     private $id;
 

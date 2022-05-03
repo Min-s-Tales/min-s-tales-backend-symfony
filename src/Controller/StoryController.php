@@ -89,6 +89,8 @@ class StoryController extends ApiBaseController
         /** @var Story $user */
         $story = $serializer->deserialize($request->getContent(), Story::class, 'json');
 
+
+        dd($this->getUser());
         $result = $storyService->create($story);
 
 

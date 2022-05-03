@@ -12,9 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Story
 {
     /**
+     * @ORM\Column(name="story_id", type="bigint", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -31,10 +31,10 @@ class Story
     private $description;
 
     /**
-     * @ORM\Column(name="url_folder", type="json")
+     * @ORM\Column(name="url_folder", type="string")
      * @Groups({"story:create", "story:read"})
      */
-    private array $urlFolder = [];
+    private string $urlFolder = "";
 
     /**
      * @ORM\Column(name="url_icon", type="string", nullable=true)
@@ -47,6 +47,14 @@ class Story
      * @Groups({"story:create", "story:read"})
      */
     private $price;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tags", cascade={"persist"})
+     * @ORM\JoinColumn(name="tag", referencedColumnName="id", onDelete="SET NULL", nullable=true)
+     * @Groups({"story:create", "story:read"})
+     */
+    private $tag;
 
     /**
      * @ORM\Column(name="id_autor", type="integer", nullable=false)
@@ -109,17 +117,17 @@ class Story
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getUrlFolder(): array
+    public function getUrlFolder(): string
     {
         return $this->urlFolder;
     }
 
     /**
-     * @param array $urlFolder
+     * @param string $urlFolder
      */
-    public function setUrlFolder(array $urlFolder): void
+    public function setUrlFolder(string $urlFolder): void
     {
         $this->urlFolder = $urlFolder;
     }
@@ -186,6 +194,22 @@ class Story
     public function setNbDownload($nbDownload): void
     {
         $this->nbDownload = $nbDownload;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
+    /**
+     * @param mixed $tag
+     */
+    public function setTag(Tags $tag): void
+    {
+        $this->tag = $tag;
     }
 
 
