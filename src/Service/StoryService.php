@@ -8,6 +8,8 @@ use App\Entity\User;
 use App\Repository\StoryRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Validator\Constraints\Uuid;
 
 class StoryService
 {

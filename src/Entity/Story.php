@@ -3,6 +3,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -18,38 +19,44 @@ class Story
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(name="title", type="string", length=180, nullable=false, unique=true)
+     * @Groups({"story:create", "story:read"})
      */
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
+     * @ORM\Column(name="description", type="string", length=180, unique=false, nullable=true)
+     * @Groups({"story:create", "story:read"})
      */
     private $description;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(name="url_folder", type="json")
+     * @Groups({"story:create", "story:read"})
      */
     private array $urlFolder = [];
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="url_icon", type="string", nullable=true)
+     * @Groups({"story:create", "story:read"})
      */
     private $urlIcon;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="price", type="float", nullable=true)
+     * @Groups({"story:create", "story:read"})
      */
     private $price;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="id_autor", type="integer", nullable=false)
+     * @Groups({"story:create", "story:read"})
      */
     private $idAutor;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="nb_download", type="integer", nullable=true)
+     * @Groups({"story:create", "story:read"})
      */
     private $nbDownload;
 
