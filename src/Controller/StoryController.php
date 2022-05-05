@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Story;
 use App\Entity\Tags;
+use App\Entity\TagsStory;
 use App\Entity\User;
 use App\Repository\StoryRepository;
 use App\Repository\TagsRepository;
@@ -69,9 +70,11 @@ class StoryController extends ApiBaseController
         /** @var Tags $tag */
         $tag = $tagsRepository->findOneBy(['label' => $tag]);
 
+
+        /** @var TagsStory $storiesByTags */
         $storiesByTags = $tagsStoryRepository->findBy(['idTags' => $tag->getId()]);
 
-        $stories = $storyRepository->findBy(['id' => $storiesByTags]);
+        $stories = $storyRepository->findBy(['idStory' => $storiesByTags]);
 
 
         $result = true;

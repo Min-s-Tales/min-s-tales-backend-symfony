@@ -16,7 +16,7 @@ class Story
      * @ORM\Id
      * @ORM\GeneratedValue
      */
-    private $id;
+    private $idStory;
 
     /**
      * @ORM\Column(name="title", type="string", length=180, nullable=false, unique=true)
@@ -63,24 +63,6 @@ class Story
      */
     private $nbDownload;
 
-
-
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return mixed
@@ -202,6 +184,22 @@ class Story
     public function __toString(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdStory()
+    {
+        return $this->idStory;
+    }
+
+    /**
+     * @param mixed $idStory
+     */
+    public function setIdStory($idStory): void
+    {
+        $this->idStory = $idStory;
     }
 
 }
