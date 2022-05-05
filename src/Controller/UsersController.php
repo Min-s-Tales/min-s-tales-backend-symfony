@@ -28,7 +28,7 @@ class UsersController extends ApiBaseController
 
 
     /**
-     * @Route(path="/users/register", name="register_users", methods={"Post"})
+     * @Route(path="/user/register", name="register_users", methods={"Post"})
      */
     public function register(
         //MailerInterface $mailer,

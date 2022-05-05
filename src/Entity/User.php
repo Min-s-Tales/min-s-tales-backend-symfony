@@ -4,6 +4,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=App\Repository\UserRepository::Class)
@@ -34,6 +35,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
+     * @ORM\Column(name="stories", type="json", nullable=true)
+     * @Groups({"user:update", "user:read"})
+     */
+    private $stories;
+
+    /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
@@ -43,6 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->id;
     }
+
 
     public function getEmail(): ?string
     {
@@ -130,5 +138,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->username = $username;
 
         return $this;
+    }
+
+    /**
+     * toString Handling Circular Reference
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStories()
+    {
+        return $this->stories;
+    }
+
+    /**
+     * @param mixed $stories
+     */
+    public function setStories($stories): void
+    {
+        $this->stories = $stories;
     }
 }

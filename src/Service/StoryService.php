@@ -27,16 +27,10 @@ class StoryService
         $this->storyRepository = $storyRepository;
     }
 
-    public function create(Story $story): bool
+    public function create(Story $story, User $user): bool
     {
 
-        $tag = new Tags();
-
-        $tag->setLabel('totot');
-        $this->em->persist($tag);
-        $this->em->flush();
-
-        $story->setTag($tag);
+        $story->setAuthor($user);
 
         $this->em->persist($story);
         $this->em->flush();

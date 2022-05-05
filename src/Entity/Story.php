@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Story
 {
     /**
-     * @ORM\Column(name="story_id", type="bigint", nullable=false, options={"unsigned"=true})
+     * @ORM\Column(name="story_id", type="bigint", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue
      */
@@ -25,7 +25,7 @@ class Story
     private $title;
 
     /**
-     * @ORM\Column(name="description", type="string", length=180, unique=false, nullable=true)
+     * @ORM\Column(name="description", type="string", length=360, unique=false, nullable=true)
      * @Groups({"story:create", "story:read"})
      */
     private $description;
@@ -50,23 +50,21 @@ class Story
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tags", cascade={"persist"})
-     * @ORM\JoinColumn(name="tag", referencedColumnName="id", onDelete="SET NULL", nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", nullable=true, onDelete="CASCADE")
+     * @ORM\Column(name="author", nullable=false)
      * @Groups({"story:create", "story:read"})
      */
-    private $tag;
-
-    /**
-     * @ORM\Column(name="id_autor", type="integer", nullable=false)
-     * @Groups({"story:create", "story:read"})
-     */
-    private $idAutor;
+    private $author;
 
     /**
      * @ORM\Column(name="nb_download", type="integer", nullable=true)
      * @Groups({"story:create", "story:read"})
      */
     private $nbDownload;
+
+
+
 
     /**
      * @return mixed
@@ -167,22 +165,6 @@ class Story
     /**
      * @return mixed
      */
-    public function getIdAutor()
-    {
-        return $this->idAutor;
-    }
-
-    /**
-     * @param mixed $idAutor
-     */
-    public function setIdAutor($idAutor): void
-    {
-        $this->idAutor = $idAutor;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getNbDownload()
     {
         return $this->nbDownload;
@@ -199,18 +181,27 @@ class Story
     /**
      * @return mixed
      */
-    public function getTag()
+    public function getAuthor()
     {
-        return $this->tag;
+        return $this->author;
     }
 
     /**
-     * @param mixed $tag
+     * @param mixed $author
      */
-    public function setTag(Tags $tag): void
+    public function setAuthor(User $author): void
     {
-        $this->tag = $tag;
+        $this->author = $author;
     }
 
+    /**
+     * toString Handling Circular Reference
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->id;
+    }
 
 }

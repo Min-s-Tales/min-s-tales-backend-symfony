@@ -4,10 +4,8 @@ namespace App\Repository;
 
 
 use App\Entity\Story;
-use App\Repository\AbstractRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Tags;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * @method Story|null find($id, $lockMode = null, $lockVersion = null)
@@ -23,11 +21,6 @@ class StoryRepository extends AbstractRepository
         parent::__construct($registry, Story::class);
 
         $this->em = $this->getEntityManager();
-    }
-
-    public function count(array $criteria): int
-    {
-        return parent::count($criteria);
     }
 
 }

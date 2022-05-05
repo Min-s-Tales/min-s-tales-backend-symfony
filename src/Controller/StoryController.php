@@ -5,7 +5,11 @@ namespace App\Controller;
 
 
 use App\Entity\Story;
+use App\Entity\Tags;
+use App\Entity\User;
 use App\Repository\StoryRepository;
+use App\Repository\TagsRepository;
+use App\Repository\TagsStoryRepository;
 use App\Repository\UserRepository;
 use App\Service\StoryService;
 use App\Service\UsersService;
@@ -49,20 +53,26 @@ class StoryController extends ApiBaseController
     }
 
     /**
-     * @Route(path="/api/story/user", name="story_by_user", methods={"GET"})
+     * @Route(path="/api/story/tag", name="story_by_tag", methods={"GET"})
      */
-    public function getStoryByUser(
+    public function getStoryByTags(
         StoryRepository $storyRepository,
+        TagsStoryRepository $tagsStoryRepository,
+        TagsRepository $tagsRepository,
         SerializerInterface $serializer,
         Request $request
     ): JsonResponse
     {
-        $result = false;
-        $stories = $storyRepository->findBy(['user' => $this->getUser()]);
+        $tag = $request->query->get('tag', '');
 
-        if ($stories === null) {
-            $this->jsonNotFound();
-        }
+        $result = false;
+        /** @var Tags $tag */
+        $tag = $tagsRepository->findOneBy(['label' => $tag]);
+
+        $storiesByTags = $tagsStoryRepository->findBy(['idTags' => $tag->getId()]);
+
+        $stories = $storyRepository->findBy(['id' => $storiesByTags]);
+
 
         $result = true;
 
@@ -81,17 +91,30 @@ class StoryController extends ApiBaseController
     public function create(
         StoryService $storyService,
         SerializerInterface $serializer,
+        TagsRepository $tagsRepository,
         Request $request
     ): JsonResponse
     {
         $result = false;
         $story = new Story();
-        /** @var Story $user */
+
+        /** @var Story $story */
         $story = $serializer->deserialize($request->getContent(), Story::class, 'json');
 
+        $user = new User();
+        $user = $this->getUser();
 
-        dd($this->getUser());
-        $result = $storyService->create($story);
+        $tag = new Tags();
+        $tag = $tagsRepository->findBy(['id' => $story->getTags()]);
+
+        if ($tag === null){
+            $story->setTags($tag);
+        }
+        if ($user === null) {
+            $this->jsonNotFound();
+        }
+
+        $result = $storyService->create($story, $user);
 
 
         return $this->json(
@@ -105,34 +128,7 @@ class StoryController extends ApiBaseController
 
 
 
-    /**
-     * @Route(path="/api/story/{tag}", name="story_by_tag", methods={"GET"})
-     */
-    public function getStoryByTags(
-        StoryRepository $storyRepository,
-        SerializerInterface $serializer,
-        Request $request
-    ): JsonResponse
-    {
-        $tag = $request->query->get('tag', '');
 
-        $result = false;
-        $stories = $storyRepository->findBy(['tag' => $tag]);
-
-        if ($stories === null) {
-            $this->jsonNotFound();
-        }
-
-        $result = true;
-
-        return $this->json(
-            [
-                'story' => $stories,
-                'result' => $result,
-            ],
-            $result ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST,
-        );
-    }
 
     /**
      * @Route(path="/api/story/{guid}", name="story_update", methods={"PUT"})

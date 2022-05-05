@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Tags
 {
     /**
-     * @ORM\Column(name="id", type="bigint", nullable=false, options={"unsigned"=true})
+     * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue
      */
@@ -24,20 +24,16 @@ class Tags
      */
     private $label;
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
+    public function setId(int $id): Tags
+
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -56,4 +52,13 @@ class Tags
         $this->label = $label;
     }
 
+    /**
+     * toString Handling Circular Reference
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->id;
+    }
 }
