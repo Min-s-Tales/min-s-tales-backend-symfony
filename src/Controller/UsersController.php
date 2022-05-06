@@ -10,7 +10,7 @@ use App\Service\UsersService;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -60,7 +60,7 @@ class UsersController extends ApiBaseController
     }
 
     /**
-     * @Route(path="/api/users/login", name="login_users", methods={"Post"})
+     * @Route(path="/api/user/login", name="login_users", methods={"Post"})
      */
     public function login(): JsonResponse
     {

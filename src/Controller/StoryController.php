@@ -17,7 +17,7 @@ use App\Service\UsersService;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -77,11 +77,10 @@ class StoryController extends ApiBaseController
         $stories = [];
         /** @var TagsStory $i */
         foreach ($storiesByTags as $i) {
-            $story = $storyRepository->findBy(['idStory' => $i->getIdStory()]);
+            $story = $storyRepository->findOneBy(['idStory' => $i->getIdStory()]);
             $stories[] = $story;
         }
 
-        dd($stories);
         $result = true;
 
         return $this->json(
