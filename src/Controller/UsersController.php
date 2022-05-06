@@ -43,12 +43,9 @@ class UsersController extends ApiBaseController
         $user = $serializer->deserialize($request->getContent(), User::class, 'json');
 
         $hashedPassword = $passwordHasher->hashPassword($user ,$user->getPassword());
-        $user->setPassword($hashedPassword);
-        $result = $usersService->create($user);
+        $user->setPassword($hashedPassword); // hash password in user and set in user
+        $result = $usersService->create($user); // create user
 
-        //TO FINISH
-        //$mailSender = new EmailSend();
-        //$mailSender->sendMail($mailer, 'minstales@gmail.com', "1deux3quatre");
 
         return $this->json(
             [
@@ -65,7 +62,7 @@ class UsersController extends ApiBaseController
     public function login(): JsonResponse
     {
         $result = false;
-        $user = $this->getUser();
+        $user = $this->getUser(); // get token
 
         return $this->json(
             [

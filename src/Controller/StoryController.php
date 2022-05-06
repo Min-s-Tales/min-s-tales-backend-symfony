@@ -36,10 +36,10 @@ class StoryController extends ApiBaseController
     ): JsonResponse
     {
         $result = false;
-        $stories = $storyRepository->findAll();
+        $stories = $storyRepository->findAll(); //get any stories
 
         if ($stories === null) {
-            $this->jsonNotFound();
+            $this->jsonNotFound(); // return json not found is story is null
         }
 
         $result = true;
@@ -64,20 +64,20 @@ class StoryController extends ApiBaseController
         Request $request
     ): JsonResponse
     {
-        $tag = $request->query->get('tag', '');
+        $tag = $request->query->get('tag', ''); // get tag in query
 
         $result = false;
         /** @var Tags $tag */
-        $tag = $tagsRepository->findOneBy(['label' => $tag]);
+        $tag = $tagsRepository->findOneBy(['label' => $tag]); // get tag by label
 
 
         /** @var TagsStory $storiesByTags */
-        $storiesByTags = $tagsStoryRepository->findBy(['idTags' => $tag->getId()]);
+        $storiesByTags = $tagsStoryRepository->findBy(['idTags' => $tag->getId()]); // get stories id by tag id
 
         $stories = [];
         /** @var TagsStory $i */
         foreach ($storiesByTags as $i) {
-            $story = $storyRepository->findOneBy(['idStory' => $i->getIdStory()]);
+            $story = $storyRepository->findOneBy(['idStory' => $i->getIdStory()]); // get stories by story id
             $stories[] = $story;
         }
 
@@ -106,13 +106,13 @@ class StoryController extends ApiBaseController
         $story = new Story();
 
         /** @var Story $story */
-        $story = $serializer->deserialize($request->getContent(), Story::class, 'json');
+        $story = $serializer->deserialize($request->getContent(), Story::class, 'json'); //get content by json
 
         $user = new User();
-        $user = $this->getUser();
+        $user = $this->getUser(); // get user by token
 
         $tag = new Tags();
-        $tag = $tagsRepository->findBy(['id' => $story->getTags()]);
+        $tag = $tagsRepository->findBy(['id' => $story->getTags()]); // get tags
 
         if ($tag === null){
             $story->setTags($tag);
@@ -149,7 +149,7 @@ class StoryController extends ApiBaseController
     ): JsonResponse
     {
         $result = false;
-        $story = $storyRepository->findOneBy(['guid' => $guid]);
+        $story = $storyRepository->findOneBy(['guid' => $guid]); // get story by guid
 
         if ($story === null) {
             $this->jsonNotFound();
@@ -159,7 +159,7 @@ class StoryController extends ApiBaseController
         $story = $serializer->deserialize($request->getContent(), Story::class, 'json');
 
 
-        $result = $storyService->update($story);
+        $result = $storyService->update($story); // update story
 
         return $this->json(
             [
@@ -182,7 +182,7 @@ class StoryController extends ApiBaseController
     ): JsonResponse
     {
         $result = false;
-        $story = $storyRepository->findOneBy(['guid' => $guid]);
+        $story = $storyRepository->findOneBy(['guid' => $guid]); // get story by guid
 
         if ($story === null) {
             $this->jsonNotFound();
@@ -192,7 +192,7 @@ class StoryController extends ApiBaseController
         $story = $serializer->deserialize($request->getContent(), Story::class, 'json');
 
 
-        $result = $storyService->delete($story);
+        $result = $storyService->delete($story); // delete story by guid
 
         return $this->json(
             [
