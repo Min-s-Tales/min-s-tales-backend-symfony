@@ -77,11 +77,10 @@ class StoryController extends ApiBaseController
         $stories = [];
         /** @var TagsStory $i */
         foreach ($storiesByTags as $i) {
-            $story = $storyRepository->findBy(['idStory' => $i->getIdStory()]);
+            $story = $storyRepository->findOneBy(['idStory' => $i->getIdStory()]);
             $stories[] = $story;
         }
 
-        dd($stories);
         $result = true;
 
         return $this->json(
