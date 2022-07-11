@@ -43,6 +43,12 @@ class Story
     private $urlIcon;
 
     /**
+     * @ORM\Column(name="url_stripe", type="string", nullable=true)
+     * @Groups({"story:create", "story:read"})
+     */
+    private $urlStripe;
+
+    /**
      * @ORM\Column(name="price", type="float", nullable=true)
      * @Groups({"story:create", "story:read"})
      */
@@ -200,6 +206,22 @@ class Story
     public function setIdStory($idStory): void
     {
         $this->idStory = $idStory;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUrlStripe()
+    {
+        return $this->urlStripe;
+    }
+
+    /**
+     * @param mixed $urlStripe
+     */
+    public function setUrlStripe($urlStripe): void
+    {
+        $this->urlStripe = $urlStripe;
     }
 
 }
