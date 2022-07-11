@@ -25,6 +25,12 @@ class Story
     private $title;
 
     /**
+     * @ORM\Column(name="display", type="string", length=180, nullable=false, unique=true)
+     * @Groups({"story:create", "story:read"})
+     */
+    private $display;
+
+    /**
      * @ORM\Column(name="description", type="string", length=360, unique=false, nullable=true)
      * @Groups({"story:create", "story:read"})
      */
@@ -47,6 +53,8 @@ class Story
      * @Groups({"story:create", "story:read"})
      */
     private $urlStripe;
+
+
 
     /**
      * @ORM\Column(name="price", type="float", nullable=true)
@@ -224,4 +232,19 @@ class Story
         $this->urlStripe = $urlStripe;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDisplay()
+    {
+        return $this->display;
+    }
+
+    /**
+     * @param mixed $display
+     */
+    public function setDisplay($display): void
+    {
+        $this->display = $display;
+    }
 }
